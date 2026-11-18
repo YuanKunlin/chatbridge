@@ -1,0 +1,14 @@
+{
+  "venv_python": "C:\\Users\\YOURNAME\\aimem-win\\.venv\\Scripts\\python.exe",
+  "app": "C:\\Users\\YOURNAME\\aimem-test\\app",
+  "db": "C:\\Users\\YOURNAME\\aimem-test\\demo.db",
+  "store": "C:\\Users\\YOURNAME\\aimem-test\\demo.vectors",
+  "embed": "st:BAAI/bge-small-zh-v1.5",
+  "rerank": "ce:C:\\Users\\YOURNAME\\aimem-test\\bge-reranker-v2-m3",
+  "device": "cuda",
+  "port": 8765,
+  "watch": "D:\\aimem-spool",
+  "captions": "C:\\Users\\YOURNAME\\aimem-test\\captions.json",
+  "caption_archive": "C:\\Users\\YOURNAME\\aimem-test\\caption-archive.json",
+  "open_browser": true
+}

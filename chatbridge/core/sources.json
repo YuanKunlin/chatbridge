@@ -1,0 +1,22 @@
+{
+  "fs": {
+    "label": "本地文件",
+    "color": "#6b7280",
+    "adapter": null
+  },
+  "wechat": {
+    "label": "微信",
+    "color": "#16a34a",
+    "adapter": "wechat4"
+  },
+  "qq": {
+    "label": "QQ",
+    "color": "#2563eb",
+    "adapter": "qqcli"
+  },
+  "email": {
+    "label": "邮箱",
+    "color": "#d97706",
+    "adapter": "imap"
+  }
+}

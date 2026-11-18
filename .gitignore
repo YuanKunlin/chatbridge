@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+*.db
+*.db-wal
+*.db-shm
+*.vectors/
+*.npy
+*.log
+.DS_Store
+spool-dev/wechat/
+spool-dev/qq/
+spool-dev/runtime/
