@@ -74,3 +74,7 @@ python -m hub web --spool spool-dev/sample --port 8766
 - macOS 可移植性分析见 `docs/macos-port-analysis.md`（如存在）。
 
 搜索测试：`cd engine && pytest -q`。
+
+## 开发与提交
+
+源码以本仓库为准，变更后直接 `git push`；运行时同步见 [docs/WORKFLOW.md](docs/WORKFLOW.md)。
