@@ -8,6 +8,11 @@ if [[ -x "$ROOT/engine/.venv/bin/python" ]]; then
   PY="$ROOT/engine/.venv/bin/python"
 fi
 
+if ! "$PY" -c "import pytest" >/dev/null 2>&1; then
+  echo "pytest not installed in $PY; run: $PY -m pip install pytest" >&2
+  exit 1
+fi
+
 echo "== engine tests =="
 PYTHONPATH="$ROOT/engine/src" "$PY" -m pytest -q "$ROOT/engine/tests"
 
