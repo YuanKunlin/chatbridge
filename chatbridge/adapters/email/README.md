@@ -66,7 +66,7 @@ py -m adapters.email export \
 `"<account>:subject:<hash>"`。每封消息带 `> <!-- mid: <message-id> -->` 作为稳定去重键
 （契约 4.3.11 允许“消息头上一行”或“正文首行”两种位置；当前使用正文首行形式，validator 两种都接受）。
 
-> `spool-dev/email/` 是仓库内的**合成样例**（1 thread / 2 messages，长正文 + 附件名），
+> `spool-dev/sample/email/` 是仓库内的**合成样例**（1 thread / 2 messages，长正文 + 附件名），
 > 不要用真实导出覆盖它；真实数据写 `D:\aimem-spool`。
 
 ## 测试

@@ -76,7 +76,7 @@
 | 14 | chatbridge `adapters/qq/decoder.py` | 163 | **B** | `decoder.py:30-40` 只扫 `Documents/Tencent Files`；`:44-49` 要求 `NTQQ_DB_KEY` | 改数据根即用，但被调用的解码器需 sqlcipher（见 #21） |
 | 15 | chatbridge `adapters/qq/pipeline.py` + `cli.py` | 547 | **C** | `pipeline.py:11` `DEFAULT_TOOLS=D:\aimem-tools\qqcli`；`:36-38` `glob("**/qq.exe")`；`cli.py:199-205` `/mnt/c` 临时目录假设 | 需换数据源（qqcli 无 macOS 版） |
 | 16 | qqmail_router（`mail_core.py` 455 + `router.py` 1385 + 测试 780） | 2,620 | **A** | `mail_core.py:14-24` 全 stdlib（`imaplib`/`email`/`html.parser`）；`router.py:34` `fcntl`（macOS 有）；路径 `router.py:57-82` 用 `Path.home()` | 直接跑（调度从 cron 换 launchd 即封顶） |
-| 17 | `aimem-demo` 启动器 | 292 | **C** | `aimem_demo.py:26-38` DEFAULTS 全是 `C:\...`+`cuda`；`:82-83` `USERPROFILE`/`LOCALAPPDATA`；`:95-125` `D:/`、`C:/`、`\\wsl.localhost\...` 探测 | 需重写配置/探测层（~80 行；工作量 **S**） |
+| 17 | `launcher` 启动器 | 292 | **C** | `aimem_demo.py` 默认已改为 `Path.home()`；仍含 Windows venv、`D:/C:/` 探测和 `cuda` | 需改配置/探测层（~80 行；工作量 **S**） |
 | 18 | qqmd/fmt `wechat_media_index.py` + `validate_format.py` | 178 | **A** | `sqlite3` + `zstandard`，纯 Python | 直接跑 |
 | 19 | qqmd/fmt `wechat4_decode_images.py` | 102 | **B** | `:88` `subprocess.run([ffmpeg, ...])` 仅 WXGF 动图需要 | `brew install ffmpeg` 即用 |
 | 20 | qqmd/fmt `wechat4_decrypt.py` | 111 | **B** | `:16` `import sqlcipher3.dbapi2` | 用 chatbridge `cipher.py` 替代即可，无需 sqlcipher |
@@ -121,7 +121,7 @@
 - `adapters/wechat/pipeline.py`（387 行）：它本身不是解码器，而是**"Windows 专用取密钥工具"的编排器**。Mac 上要重写的是"密钥从哪来" + "微信数据根在哪"，而不是解析逻辑。
 - `adapters/qq/pipeline.py` + `cli.py`（547 行）：围绕 `qq.exe` 的编排（含 `/mnt/c` 临时目录、Windows 路径转换），Mac 上整体换数据源。
 - `qqmd/fmt/ntqq_export_md.py`（362 行）：需要 sqlcipher 等价物，且 QQ NT 的 cipher 参数是定制的（`:108-116`）。
-- `aimem-demo/aimem_demo.py`（292 行）：启动器，Windows 路径探测占了大半；Mac 版更简单（不需要 `D:/`、`C:/`、`\\wsl.localhost` 探测）。
+- `launcher/aimem_demo.py`（292 行）：启动器，Windows 路径探测占了大半；Mac 版可去掉 `D:/C:/` 探测。
 
 ### 3.4 不可移植（D，280 行 / 2.1%）
 
@@ -220,7 +220,7 @@
 
 - `hub` 的 `export`/`merge`/`validate`/`web` 全部用 `sys.executable -m adapters.x`（`hub/web.py:107-119`、`hub/__main__.py:59-97`），**没有 shell 拼接、没有盘符传参**，macOS 上原样工作；端口 8766（Hub）/ 8765（搜索）都不需要特权。
 - `hub/web.py:53` 把搜索端地址硬编码成 `http://127.0.0.1:8765/`，Mac 上若改端口需一起改（一行）。
-- `aimem-demo` 是唯一的"启动体验"问题：它假设 Windows venv 的 `python.exe`（`aimem_demo.py:26`）、`D:/C:/\\wsl.localhost` 探测（`:95-125`）、`cuda`（`:32`）。Mac 上建议：
+- `launcher` 是唯一的"启动体验"问题：它默认 Windows venv 的 `python.exe`、`D:/C:/` 探测、`cuda`。Mac 上建议：
   - **不要**用 PyInstaller 打包（模型 + torch 会让 .app 膨胀到 GB 级，且 Apple Silicon 要求签名）；
   - 改成"shell 启动脚本 + 可选 `.app` 包装（`automator`/`osacompile` 或 `py2app` 轻量壳）"，脚本里用 `open http://127.0.0.1:8765` 打开浏览器。
   - 现有 `aimem_demo.py` 的后半段（端口探测 `:154-181`、探活 `:175-181`、`webbrowser.open` `:279`、子进程管理 `:271-288`）**可以复用**，只需替换 `load()` 的默认值与 `discover_export()`。

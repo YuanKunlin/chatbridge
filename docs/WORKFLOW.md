@@ -35,7 +35,7 @@ $AIMEM_RUNTIME（默认 ~/AI-Advaned-File-Search）
 ## 数据与隐私
 
 - 不提交真实聊天记录、数据库、向量、模型、截图。
-- 样例只保留 `chatbridge/spool-dev/sample` 与 `chatbridge/spool-dev/email` 的合成数据。
+- 样例只保留 `chatbridge/spool-dev/sample` 的合成数据。
 - 提交前可跑：
 
 ```bash

@@ -425,7 +425,7 @@ UI chip、planner 来源词、`label()` 都从注册表生成。
 | 角色 | 可写 | 只读/禁止 |
 |---|---|---|
 | A（微信+QQ） | `adapters/{wechat,qq}`、`spool-dev/{wechat,qq}`、`D:\aimem-tools\qqcli`、`D:\aimem-spool\{wechat,qq}`、`docs/agents/A.md` | `core/`、搜索、邮箱、`~/qqmd` 只读 |
-| B（邮箱） | `~/qqmail_router`、`adapters/email`、`spool-dev/email`、`D:\aimem-spool\email`、`docs/agents/B.md` | `core/`、搜索、微信/QQ |
+| B（邮箱） | `~/qqmail_router`、`adapters/email`、`spool-dev/sample/email`、`D:\aimem-spool\email`、`docs/agents/B.md` | `core/`、搜索、微信/QQ |
 | Lead | `core/`、`~/AI-Advaned-File-Search`、`hub/`、`D:\aimem-spool\manifest.json`、归档 | — |
 
 契约变更：agent 只提 proposal；Lead 改 `CONTRACT.md`/`sources.json`/validator。
