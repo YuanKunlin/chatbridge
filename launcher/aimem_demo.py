@@ -119,9 +119,6 @@ def discover_export() -> Path | None:
         Path("D:/wechat-markdown"),
         Path("C:/chat/wechat"),
         Path("D:/chat/wechat"),
-        Path(r"\\wsl.localhost\Ubuntu\home\ykl\qqmd\wxout_ocr_all"),
-        Path(r"\\wsl.localhost\Ubuntu\home\ykl\qqmd\wxout"),
-        Path(r"\\wsl.localhost\Ubuntu\home\ykl\qqmd\out"),
     ]
 
     for root in (home / "Desktop", home / "Documents", Path("D:/"), Path("C:/")):

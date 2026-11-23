@@ -17,6 +17,9 @@ chatbridge/                 # 数据总线
   adapters/wechat/          # 微信本地库 -> chat-md
   adapters/qq/              # QQ(qqcli + 解码器) -> chat-md
   adapters/email/           # IMAP -> 线程 Markdown
+  tools/wechat/             # 微信解密/图片/Markdown 解码脚本
+  tools/qq/                 # QQ NT 解码器
+  requirements.txt
   core/                     # CONTRACT / validator / manifest merge
   hub/                      # CLI + Web 8766
   spool-dev/sample/         # 三源合成样例
