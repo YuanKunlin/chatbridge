@@ -1,0 +1,6 @@
+cryptography>=41
+zstandard>=0.21
+pytest>=7
+
+# 仅 Windows 本地 QQ 解码需要（按需取消注释）：
+# sqlcipher3-binary>=0.5

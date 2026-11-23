@@ -32,6 +32,7 @@ launcher/                   # Windows 本地启动器
 cd engine
 python3 -m venv .venv && . .venv/bin/activate
 pip install -e .
+pip install -r ../chatbridge/requirements.txt
 python -m aimem.cli init --db a.db --store a.vectors
 python -m aimem.cli serve --db a.db --store a.vectors --port 8765
 ```

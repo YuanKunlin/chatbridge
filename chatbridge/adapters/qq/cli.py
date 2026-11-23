@@ -3,7 +3,7 @@
 Three read-only sources, merged at message level (Lead decision):
 
 * qqcli    -> c2c private chats (native message ids; never `qq search`)
-* decoder  -> live groups + nicknames via ~/qqmd/ntqq_export_md.py
+* decoder  -> live groups + nicknames via tools/qq/ntqq_export_md.py
 * snapshot -> ~/qqmd/out legacy export (fallback when the decoder key is absent)
 
 Priority for duplicate messages: decoder (newest) > snapshot > qqcli; the qqcli

@@ -1,9 +1,9 @@
 """WeChat export pipeline.
 
-Wraps the existing ~/qqmd/fmt steps:
+Wraps the local tools/wechat steps（也可用 CHATBRIDGE_WECHAT_TOOLS 覆盖）：
 
     wechat4_extract_keys -> decrypt -> wechat_media_index
-    -> wechat4_find_image_key -> wechat4_decode_images -> wechat4_export_md
+    -> find_image_key -> wechat4_decode_images -> wechat4_export_md
 
 The only logic added here is account discovery/verification, contract
 normalisation, atomic placement into the spool and manifest bookkeeping.
@@ -21,7 +21,11 @@ from pathlib import Path
 
 from . import cipher, normalize
 
-DEFAULT_TOOLS = Path(os.environ.get("CHATBRIDGE_WECHAT_TOOLS", str(Path.home() / "qqmd" / "fmt")))
+_LOCAL_TOOLS = Path(__file__).resolve().parents[2] / "tools" / "wechat"
+DEFAULT_TOOLS = Path(os.environ.get(
+  "CHATBRIDGE_WECHAT_TOOLS",
+  str(_LOCAL_TOOLS if _LOCAL_TOOLS.is_dir() else Path.home() / "qqmd" / "fmt"),
+))
 DB_SUFFIXES = (".db", ".db-wal", ".db-shm")
 
 
@@ -207,7 +211,7 @@ def find_image_key(account: Account, out: Path, tools: Path, samples: int = 2) -
   datas = list(account.attach_dir.rglob("*.dat"))[:samples]
   for dat in datas:
     try:
-      run_tool("wechat4_find_image_key.py", ["--dat", str(dat), "--out", str(out)],
+      run_tool("find_image_key.py", ["--dat", str(dat), "--out", str(out)],
                python=find_win_python(), tools=tools)
     except SetupError:
       continue

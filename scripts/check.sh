@@ -20,5 +20,10 @@ echo "== chatbridge tests =="
 cd "$ROOT/chatbridge"
 "$PY" -m unittest discover -s tests -p 'test_*.py'
 
+echo "== adapter tests =="
+for suite in adapters/wechat/tests adapters/qq/tests adapters/email/tests; do
+  PYTHONPATH="$ROOT/chatbridge" "$PY" -m unittest discover -s "$ROOT/chatbridge/$suite" -p 'test_*.py'
+done
+
 echo "== sample contract =="
 "$PY" core/validate_spool.py spool-dev/sample --strict

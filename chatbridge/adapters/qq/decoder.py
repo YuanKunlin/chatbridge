@@ -1,4 +1,4 @@
-"""Run the existing QQ decoder (~/qqmd/ntqq_export_md.py) and normalise its output.
+"""Run the local QQ decoder（tools/qq/ntqq_export_md.py）并归一化输出。
 
 qqcli only reaches c2c; the decoder covers groups and resolves nicknames. Both
 are read-only exporters — no search, no DuckDB index.
@@ -16,8 +16,11 @@ from pathlib import Path
 
 from . import mdio, normalize
 
-DEFAULT_DECODER = Path(os.environ.get("CHATBRIDGE_QQ_DECODER",
-                                     str(Path.home() / "qqmd" / "ntqq_export_md.py")))
+_LOCAL_DECODER = Path(__file__).resolve().parents[2] / "tools" / "qq" / "ntqq_export_md.py"
+DEFAULT_DECODER = Path(os.environ.get(
+  "CHATBRIDGE_QQ_DECODER",
+  str(_LOCAL_DECODER if _LOCAL_DECODER.exists() else Path.home() / "qqmd" / "ntqq_export_md.py"),
+))
 CONTRACT = "chat-md/1"
 META_RE = re.compile(r"^([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*$")
 MSG_RE = re.compile(r"^\*\*\d{1,2}:\d{2}(?::\d{2})?\s*·\s*.+\*\*")
