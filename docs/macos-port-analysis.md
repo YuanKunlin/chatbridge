@@ -1,7 +1,7 @@
 # ChatBridge / aimem 迁移 macOS 可执行性分析
 
 > 报告类型：只读分析（未修改任何源码、未改动 `D:\aimem-spool` / `C:\Users\<user>\aimem-test`、未运行微信/QQ 解密）
-> 分析范围：`~/chatbridge`、`~/AI-Advaned-File-Search`、`~/aimem-demo`、`~/qqmail_router`、`~/qqmd`（只读）
+> 分析范围：`~/chatbridge`、`~/AI-Advaned-File-Search`、`launcher/`、`~/qqmail_router`、`~/qqmd`（只读）
 > 分析基线：2026-11-08；代码版本 = 工作区当前状态（chatbridge `git status` 除本报告新增文件外干净，无未提交的源码改动）
 > 证据形式：`文件:行号`，全部为本次实际读取/执行所得；凡未在真机 macOS 上验证的结论均显式标注
 
@@ -315,7 +315,7 @@ P0/P1 用方案 B 跑通；若之后确实需要 Mac 原生微信，则**单独�
 | P1-3 | 验证 spool 模式的 manifest 多源 watch（`server.py` 的 `sync_spool`）；`--watch-platform` 只影响旧单目录兼容路径 | S | 微信+QQ+邮箱三源同时可搜 |
 | P1-4 | Hub 默认 spool 改环境变量（`AIMEM_SPOOL`），去掉 `D:\` 默认值 | S | `hub status` 无参数可直接用 |
 | P1-5 | 精排模型预下载到本地目录，配 `ce:<path>`；测首屏延迟，决定是否默认关闭 | S/M | 首屏 p50 < 1.5 s（MPS）或 < 3 s（CPU） |
-| P1-6 | macOS 启动脚本（替代 `aimem-demo`）：venv python + `open http://127.0.0.1:8765` | S | 双击/一行命令可用 |
+| P1-6 | macOS 启动脚本（替代 `launcher`）：venv python + `open http://127.0.0.1:8765` | S | 双击/一行命令可用 |
 | P1-7 | Windows → Mac 同步任务（Syncthing 或 launchd + rsync over ssh） | S/M | 无人值守、失败可见 |
 
 **P1 结束态**：搜索 + 文件 + 邮箱 + 微信/QQ 历史全部可用，聊天数据走 Windows 解码 + 同步。**这就是"85% 可移植"落地成产品的最小闭环。**
@@ -391,7 +391,7 @@ cd ~/qqmail_router && python3 tests/test_router.py
 # 平台关键词扫描（本报告 §2 的分母来源）
 # （把 §10 附录 A 的扫描脚本存成 /tmp/wincount.py 再执行）
 python3 /tmp/wincount.py chatbridge AI-Advaned-File-Search/src AI-Advaned-File-Search/tests \
-        aimem-demo qqmail_router qqmd/fmt
+        launcher qqmail_router qqmd/fmt
 ```
 
 ### 9.2 macOS 上必须补跑（迁移前，"未验证"项的验证清单）
@@ -463,7 +463,7 @@ B    163  chatbridge adapters/qq — decoder.py
 C    387  chatbridge adapters/wechat — pipeline.py
 C    547  chatbridge adapters/qq — pipeline.py+cli.py
 A  2,620  qqmail_router
-C    292  aimem-demo launcher
+C    292  launcher
 A    178  qqmd/fmt wechat_media_index + validate_format
 B    102  qqmd/fmt wechat4_decode_images
 B    111  qqmd/fmt wechat4_decrypt
@@ -518,7 +518,7 @@ for root in sys.argv[1:]:
 module                         files    LOC   startfile   explorer   platform   mnt   drive   ctypes   exe   cuda   winenv   ffmpeg  sqlcipher
 chatbridge                        34   4519           0          0          7    13      21        0     6      0        3        0          8
 AI-Advaned-File-Search/src        21   3843           1          2          1     0       2        0     0      2        0        0          0
-aimem-demo                         1    292           0          0          0     0       7        0     1      1        2        0          0
+launcher                         1    292           0          0          0     0       7        0     1      1        2        0          0
 qqmail_router                      3   2620           0          0          0     0       1        0     0      0        0        0          2
 qqmd/fmt                           8   1346           0          0          0     0       2       27     5      0        0        2          7
 qqmd/wxtool                       10   3788           0          0          0     0       7       43    10      0        0        0          0

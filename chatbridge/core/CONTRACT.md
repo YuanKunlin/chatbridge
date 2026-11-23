@@ -33,7 +33,6 @@
   core/sources.json
   adapters/{wechat,qq,email}/
   hub/
-  docs/agents/{A,B}.md
   tests/
   spool-dev/                          # 开发样例，gitignore
 
@@ -414,7 +413,7 @@ UI chip、planner 来源词、`label()` 都从注册表生成。
 
 适配器交付前必须附：
 
-- `docs/agents/<X>.md` 状态/命令/计数/失败项；
+- 提交说明：命令、计数、失败项；
 - validator 输出；
 - 至少一个样例 spool。
 
@@ -424,8 +423,8 @@ UI chip、planner 来源词、`label()` 都从注册表生成。
 
 | 角色 | 可写 | 只读/禁止 |
 |---|---|---|
-| A（微信+QQ） | `adapters/{wechat,qq}`、`spool-dev/{wechat,qq}`、`D:\aimem-tools\qqcli`、`D:\aimem-spool\{wechat,qq}`、`docs/agents/A.md` | `core/`、搜索、邮箱、`~/qqmd` 只读 |
-| B（邮箱） | `~/qqmail_router`、`adapters/email`、`spool-dev/sample/email`、`D:\aimem-spool\email`、`docs/agents/B.md` | `core/`、搜索、微信/QQ |
+| A（微信+QQ） | `adapters/{wechat,qq}`、`spool-dev/{wechat,qq}`、`D:\aimem-tools\qqcli`、`D:\aimem-spool\{wechat,qq}` | `core/`、搜索、邮箱、`~/qqmd` 只读 |
+| B（邮箱） | `~/qqmail_router`、`adapters/email`、`spool-dev/sample/email`、`D:\aimem-spool\email` | `core/`、搜索、微信/QQ |
 | Lead | `core/`、`~/AI-Advaned-File-Search`、`hub/`、`D:\aimem-spool\manifest.json`、归档 | — |
 
 契约变更：agent 只提 proposal；Lead 改 `CONTRACT.md`/`sources.json`/validator。
