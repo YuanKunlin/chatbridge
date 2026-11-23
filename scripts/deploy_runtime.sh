@@ -14,11 +14,15 @@ if [[ ! -d "$SEARCH_RUNTIME/src" ]]; then
   exit 1
 fi
 
-echo "deploy chatbridge -> $CHAT_RUNTIME"
-for sub in adapters core hub tests; do
-  mkdir -p "$CHAT_RUNTIME/$sub"
-  rsync -a --exclude __pycache__ "$ROOT/chatbridge/$sub/" "$CHAT_RUNTIME/$sub/"
-done
+if [[ "$(readlink -f "$CHAT_RUNTIME")" == "$(readlink -f "$ROOT/chatbridge")" ]]; then
+  echo "chatbridge runtime is symlinked to repo; skip copy"
+else
+  echo "deploy chatbridge -> $CHAT_RUNTIME"
+  for sub in adapters core hub tests; do
+    mkdir -p "$CHAT_RUNTIME/$sub"
+    rsync -a --exclude __pycache__ "$ROOT/chatbridge/$sub/" "$CHAT_RUNTIME/$sub/"
+  done
+fi
 
 echo "deploy engine -> $SEARCH_RUNTIME/src/aimem"
 mkdir -p "$SEARCH_RUNTIME/src/aimem"

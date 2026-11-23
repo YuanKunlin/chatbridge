@@ -16,14 +16,15 @@ git push
 
 ## 运行时目录（部署目标，不是源码）
 
-旧的工作目录仍供本机运行：
+运行时目录：
 
 ```
-$CHATBRIDGE_RUNTIME（默认 ~/chatbridge）
+$CHATBRIDGE_RUNTIME（默认 ~/chatbridge，已 symlink 到本仓库 chatbridge/）
 $AIMEM_RUNTIME（默认 ~/AI-Advaned-File-Search）
 ```
 
-它们属于 **部署副本**，不要在上面做长期开发；修改请回到本仓库，然后用：
+`~/chatbridge` 现在就是本仓库 `chatbridge/` 的符号链接，改仓库即改运行时；
+`engine/` 仍通过下面的脚本同步到搜索运行时。所有代码修改请回到本仓库，提交后：
 
 ```bash
 ./scripts/deploy_runtime.sh
